@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
 import useSWR, { Fetcher } from 'swr';
+import Link from 'next/link';
 // import { GET } from './api/route';
 
 // console.log(GET());
@@ -17,11 +18,20 @@ export default function Home() {
     fetcher
   );
 
-  if (error) return <p>Error fetching data: {error.message}</p>;
+  if (error)
+    return (
+      <div>
+        <Link href='/[postId]' as='/posts'>
+          Go to Post
+        </Link>
+        <p>Error fetching data: {error.message}</p>
+      </div>
+    );
   if (isLoading) return <p>Loading...</p>;
   console.log(data.posts);
   return (
-    <p>
+    <div>
+      <p>aaaaa</p>
       {data.posts.map((el: any) => {
         return (
           <div>
@@ -30,6 +40,6 @@ export default function Home() {
           </div>
         );
       })}
-    </p>
+    </div>
   );
 }
