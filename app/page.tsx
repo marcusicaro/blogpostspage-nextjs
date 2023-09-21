@@ -3,11 +3,19 @@ import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
 import useSWR, { Fetcher } from 'swr';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 // import { GET } from './api/route';
 
 // console.log(GET());
 
 export default function Home() {
+  const pathname = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const search = searchParams.get('postid');
+  let a = 0;
   const fetcher = async (url: string) => {
     const response = await fetch(url);
     return await response.json();
@@ -33,8 +41,9 @@ export default function Home() {
     <div>
       <p>aaaaa</p>
       {data.posts.map((el: any) => {
+        a++;
         return (
-          <div>
+          <div key={a}>
             <p>{el.title}</p>
             <p>{el.content}</p>
           </div>
