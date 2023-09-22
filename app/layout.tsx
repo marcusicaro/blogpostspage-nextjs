@@ -17,9 +17,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <body className={inter.className}>
+      <body
+        className='w-100 flex bg-transparent'
+        style={{ background: 'none' }}
+      >
         {children}
-        <Image alt='turtles' src='/turtles.jpg' width={300} height={300} />
       </body>
     </html>
   );

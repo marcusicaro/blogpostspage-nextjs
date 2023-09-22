@@ -3,16 +3,12 @@ import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
 import useSWR, { Fetcher } from 'swr';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { usePathname } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 // import { GET } from './api/route';
 
 // console.log(GET());
 
 export default function Home() {
-  const pathname = usePathname();
-  const router = useRouter();
   const searchParams = useSearchParams();
   const search = searchParams.get('id');
   let a = 0;
@@ -22,7 +18,8 @@ export default function Home() {
   };
 
   const { data, error, isLoading } = useSWR(
-    'http://localhost:3002/posts',
+    'http://localhost:3002/posts/' + search,
+
     fetcher
   );
 
@@ -36,23 +33,23 @@ export default function Home() {
       </div>
     );
   if (isLoading) return <p>Loading...</p>;
-  console.log(data.posts);
+  console.log(data);
+  const { post } = data;
+  if (search === null)
+    return (
+      <div className='w-100 justify-center flex'>
+        <div>
+          <p>Not Found</p>
+        </div>
+      </div>
+    );
   return (
-    <div>
-      <p>aaaaa</p>
-      {data.posts.map((el: any) => {
-        a++;
-        return (
-          <div key={a}>
-            <Link
-              href={{ pathname: '/posts', query: { id: el._id } }}
-              as={'/posts' + '?id=' + el._id}
-            >
-              {el.title}
-            </Link>
-          </div>
-        );
-      })}
+    <div className='w-100 justify-center flex'>
+      <div>
+        <p>{post.title}</p>
+        <p>{post.content}</p>
+        <p>{post.user.username}</p>
+      </div>
     </div>
   );
 }
