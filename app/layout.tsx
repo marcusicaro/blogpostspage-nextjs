@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body
-        className='w-100 flex bg-transparent'
+        className='w-full h-screen flex bg-transparent flex justify-center'
         style={{ background: 'none' }}
       >
         {children}
