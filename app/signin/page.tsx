@@ -35,7 +35,7 @@ export default function Page() {
 
     if (data.token) {
       // Redirect user to a new page after successful sign-in
-      Cookies.set('token', data.token);
+      Cookies.set('token', data.token, { expires: 1 / 24 });
       router.push('/');
 
       //   alert('valid');
