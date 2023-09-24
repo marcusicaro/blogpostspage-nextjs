@@ -2,6 +2,7 @@
 import useSWR, { Fetcher } from 'swr';
 import Link from 'next/link';
 import { Delete } from '@mui/icons-material';
+import { commentsRoute } from '@/utils/routes';
 
 interface Query {
   query: string;
@@ -14,7 +15,7 @@ export default function Comments(props: Query) {
   };
 
   const { data, error, isLoading } = useSWR(
-    'http://localhost:3002/comments/' + props.query,
+    commentsRoute + props.query,
 
     fetcher
   );
@@ -22,7 +23,7 @@ export default function Comments(props: Query) {
   async function deleteComment(e: any, id: string) {
     console.log(id);
 
-    const response = await fetch('http://localhost:3002/comments/' + id, {
+    const response = await fetch(commentsRoute + id, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

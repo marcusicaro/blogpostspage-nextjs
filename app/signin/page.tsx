@@ -1,8 +1,9 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import PasswordField from '../components/PasswordField';
 import Cookies from 'js-cookie';
+import { usersSigninRoute } from '@/utils/routes';
 
 export default function Page() {
   const [formData, setFormData] = useState({ username: '', password: '' });
@@ -23,7 +24,7 @@ export default function Page() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-    const response = await fetch('http://localhost:3002/users/signin', {
+    const response = await fetch(usersSigninRoute, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -92,35 +93,11 @@ export default function Page() {
             id='username'
           />
         </div>
-        <div className='flex relative flex-col gap-1 h-min'>
-          <label htmlFor='password'>Password:</label>
-          <div className='relative'>
-            <input
-              onChange={(e) =>
-                setFormData({ ...formData, password: e.target.value })
-              }
-              className='h-min rounded-sm border-2 border-black-600'
-              type={showPassword ? 'text' : 'password'}
-              name='password'
-              id='password'
-            />
-            {showPassword ? (
-              <div
-                className='absolute right-1 bottom-0 top-0 my-auto cursor-pointer'
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                <Visibility />
-              </div>
-            ) : (
-              <div
-                className='absolute right-1 bottom-1 bottom-0 top-0 my-auto cursor-pointer'
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                <VisibilityOff />
-              </div>
-            )}
-          </div>
-        </div>
+        <PasswordField
+          onChangePasswordField={(e: any) =>
+            setFormData({ ...formData, password: e.target.value })
+          }
+        />
       </div>
       <div className='flex align-middle items-center'>
         <a href='/signup' className='text-sm underline'>

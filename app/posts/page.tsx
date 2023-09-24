@@ -7,7 +7,8 @@ import { useSearchParams } from 'next/navigation';
 import parse from 'html-react-parser';
 import capitalizeFirstLetter from '../../utils/capitalizeFirstLetter';
 import Cookies from 'js-cookie';
-import Comments from '../components/comments';
+import Comments from '../components/Comments';
+import { postsRoute, commentsRoute } from '@/utils/routes';
 
 export default function Page() {
   const router = useRouter();
@@ -25,7 +26,7 @@ export default function Page() {
   };
 
   const { data, error, isLoading } = useSWR(
-    'http://localhost:3002/posts/' + search,
+    postsRoute + search,
 
     fetcher
   );
@@ -33,7 +34,7 @@ export default function Page() {
   async function postComment(e: any) {
     e.preventDefault();
 
-    const response = await fetch('http://localhost:3002/comments/' + search, {
+    const response = await fetch(commentsRoute + search, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

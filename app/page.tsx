@@ -6,9 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
-// import { GET } from './api/route';
-
-// console.log(GET());
+import { postsRoute } from '../utils/routes';
 
 export default function Home() {
   const pathname = usePathname();
@@ -21,10 +19,7 @@ export default function Home() {
     return await response.json();
   };
 
-  const { data, error, isLoading } = useSWR(
-    'http://localhost:3002/posts',
-    fetcher
-  );
+  const { data, error, isLoading } = useSWR(postsRoute, fetcher);
 
   if (error)
     return (
@@ -72,6 +67,12 @@ export default function Home() {
           </div>
         );
       })}
+      <Link
+        className='mx-auto mt-2 w-max h-min text-white bg-red-500 px-2 py-1 rounded-md'
+        href='/posts/new'
+      >
+        New Post
+      </Link>
     </div>
   );
 }
