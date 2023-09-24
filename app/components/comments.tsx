@@ -1,3 +1,4 @@
+'use client';
 import useSWR, { Fetcher } from 'swr';
 import Link from 'next/link';
 import { Delete } from '@mui/icons-material';

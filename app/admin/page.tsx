@@ -1,28 +1,20 @@
 'use client';
-import Image from 'next/image';
-import React, { useState, useEffect } from 'react';
-import useSWR, { Fetcher } from 'swr';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { usePathname } from 'next/navigation';
-import { useSearchParams } from 'next/navigation';
-// import { GET } from './api/route';
+import useSWR, { Fetcher } from 'swr';
+import AdminForm from '../components/adminForm';
 
-// console.log(GET());
-
-export default function Home() {
-  const pathname = usePathname();
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const search = searchParams.get('id');
-  let a = 0;
+export default function Page() {
   const fetcher = async (url: string) => {
-    const response = await fetch(url);
-    return await response.json();
+    try {
+      const response = await fetch(url, { credentials: 'include' });
+      return await response.json();
+    } catch (error) {
+      alert(error);
+    }
   };
 
   const { data, error, isLoading } = useSWR(
-    'http://localhost:3002/posts',
+    'http://localhost:3002/users/admin',
     fetcher
   );
 
@@ -56,22 +48,22 @@ export default function Home() {
         </div>
       </div>
     );
-  return (
-    <div className='h-full flex flex-col justify-center items-center'>
-      <p>Posts:</p>
-      {data.posts.map((el: any) => {
-        a++;
-        return (
-          <div key={a}>
-            <Link
-              href={{ pathname: '/posts', query: { id: el._id } }}
-              as={'/posts' + '?id=' + el._id}
-            >
-              {el.title}
-            </Link>
-          </div>
-        );
-      })}
-    </div>
-  );
+  if (data) {
+    if (data.token === false)
+      return (
+        <div>
+          <p>Você precisa estar logado</p>
+          <Link
+            className='ms-auto w-max h-min text-white bg-red-500 px-2 py-1 rounded-md'
+            href={'/signin'}
+          >
+            Login
+          </Link>
+        </div>
+      );
+    const { admin } = data;
+    return admin === true ? <div>Already an admin!</div> : <AdminForm />;
+  }
+
+  return <div>Não foi possível carregar os dados</div>;
 }
