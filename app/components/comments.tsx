@@ -1,35 +1,49 @@
-'use client';
-import Image from 'next/image';
-import React, { useState, useEffect } from 'react';
 import useSWR, { Fetcher } from 'swr';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { usePathname } from 'next/navigation';
-import { useSearchParams } from 'next/navigation';
-// import { GET } from './api/route';
+import { Delete } from '@mui/icons-material';
 
-// console.log(GET());
+interface Query {
+  query: string;
+}
 
-export default function Home() {
-  const pathname = usePathname();
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const search = searchParams.get('id');
-  let a = 0;
+export default function Comments(props: Query) {
   const fetcher = async (url: string) => {
     const response = await fetch(url);
     return await response.json();
   };
 
   const { data, error, isLoading } = useSWR(
-    'http://localhost:3002/posts',
+    'http://localhost:3002/comments/' + props.query,
+
     fetcher
   );
+
+  async function deleteComment(e: any, id: string) {
+    console.log(id);
+
+    const response = await fetch('http://localhost:3002/comments/' + id, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    });
+
+    const data = await response.json();
+    if (data.message) {
+      alert(data.message);
+    } else {
+      alert('Invalid credentials');
+    }
+  }
 
   if (error)
     return (
       <div>
-        <p>Erro carregando os dados: {error.message}</p>
+        <Link href='/' as='/'>
+          Return home
+        </Link>
+        <p>Error fetching data: {error.message}</p>
       </div>
     );
   if (isLoading)
@@ -56,23 +70,38 @@ export default function Home() {
         </div>
       </div>
     );
-  console.log(data.posts);
+  const { post } = data;
+  if (props.query === null)
+    return (
+      <div className='w-full h-screen align-middle items-center justify-center flex'>
+        <div className='w-full h-full align-middle items-center justify-center flex'>
+          <p>Not Found</p>
+        </div>
+      </div>
+    );
   return (
-    <div className='h-full flex flex-col justify-center items-center'>
-      <p>Posts:</p>
-      {data.posts.map((el: any) => {
-        a++;
-        return (
-          <div key={a}>
-            <Link
-              href={{ pathname: '/posts', query: { id: el._id } }}
-              as={'/posts' + '?id=' + el._id}
-            >
-              {el.title}
-            </Link>
-          </div>
-        );
-      })}
+    <div className='flex flex-col gap-1 w-full'>
+      <p className='text-gray-600 italic'>Comments</p>
+      <div className='flex flex-col gap-3 '>
+        {data.comments.map((el: any) => {
+          return (
+            <div id={el._id} key={el._id}>
+              <div className='header flex justify-between'>
+                <p>{el.title}</p>{' '}
+                <div
+                  className='cursor-pointer'
+                  onClick={(e) => deleteComment(e, el._id)}
+                >
+                  <Delete />
+                </div>
+              </div>
+
+              <p>{el.text}</p>
+              <p>{el.user.username}</p>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

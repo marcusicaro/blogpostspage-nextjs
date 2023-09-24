@@ -1,17 +1,24 @@
 'use client';
-import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
 import useSWR, { Fetcher } from 'swr';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-// import { GET } from './api/route';
-
-// console.log(GET());
+import parse from 'html-react-parser';
+import capitalizeFirstLetter from '../../utils/capitalizeFirstLetter';
+import Cookies from 'js-cookie';
+import Comments from '../components/comments';
 
 export default function Page() {
+  const router = useRouter();
+  const [commentFormData, setCommentFormData] = useState({
+    title: '',
+    text: '',
+  });
   const searchParams = useSearchParams();
   const search = searchParams.get('id');
   let a = 0;
+  const token = Cookies.get('token');
   const fetcher = async (url: string) => {
     const response = await fetch(url);
     return await response.json();
@@ -22,6 +29,26 @@ export default function Page() {
 
     fetcher
   );
+
+  async function postComment(e: any) {
+    e.preventDefault();
+
+    const response = await fetch('http://localhost:3002/comments/' + search, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify(commentFormData),
+    });
+
+    const data = await response.json();
+    if (data.message) {
+      alert(data.message);
+    } else {
+      alert('Invalid credentials');
+    }
+  }
 
   if (error)
     return (
@@ -56,7 +83,6 @@ export default function Page() {
         </div>
       </div>
     );
-  console.log(data);
   const { post } = data;
   if (search === null)
     return (
@@ -67,11 +93,61 @@ export default function Page() {
       </div>
     );
   return (
-    <div className='w-full h-screen align-middle justify-center flex'>
-      <div className='w-full max-w-screen-xl'>
-        <p className='text-lg'>{post.title}</p>
-        <p>{post.content}</p>
-        <p>{post.user.username}</p>
+    <div className='w-full h-screen  flex-col flex'>
+      <div className='w-full align-middle justify-center flex'>
+        <div className='w-full justify-center max-w-screen-xl'>
+          <p className='text-3xl font-bold'>{post.title}</p>
+          {parse(post.content)}
+          <p>{capitalizeFirstLetter(post.user.username)}</p>
+        </div>
+      </div>
+      <div className='max-w-3xl w-full flex mx-auto'>
+        {token ? (
+          <div className='flex flex-col justify-center items-center w-full'>
+            <Comments query={search} />
+            <form
+              onSubmit={postComment}
+              className='flex max-w-2xl gap-2 w-full flex-col'
+            >
+              <input
+                onChange={(e) =>
+                  setCommentFormData({
+                    ...commentFormData,
+                    title: e.target.value,
+                  })
+                }
+                type='text'
+                name='title'
+                placeholder='Título'
+                className='rounded-sm border-2 border-black-600'
+              />
+              <textarea
+                onChange={(e) =>
+                  setCommentFormData({
+                    ...commentFormData,
+                    text: e.target.value,
+                  })
+                }
+                name='text'
+                placeholder='Conteúdo'
+                className='resize-none rounded-sm border-2 border-black-600'
+              />
+              <button
+                className='ms-auto w-max h-min text-white bg-red-500 px-2 py-1 rounded-md'
+                type='submit'
+              >
+                Post Comment
+              </button>
+            </form>
+          </div>
+        ) : (
+          <div
+            className='cursor-pointer w-max px-2 py-1 rounded-md bg-gray-500 text-white mx-auto'
+            onClick={() => router.push('/signin')}
+          >
+            Sign in to comment
+          </div>
+        )}
       </div>
     </div>
   );

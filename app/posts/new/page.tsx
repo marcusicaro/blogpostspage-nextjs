@@ -1,26 +1,29 @@
 'use client';
 import { Editor } from '@tinymce/tinymce-react';
 import React, { useRef } from 'react';
+import { useRouter } from 'next/navigation';
+
 export default function Page() {
-  const editorRef = useRef(null);
+  const editorRef = useRef<any | null>(null);
   const [title, setTitle] = React.useState('');
-  const log = () => {
-    if (editorRef.current) {
-      console.log(editorRef.current);
-    }
-  };
-  const postArticle = () => {
+  const router = useRouter();
+
+  const postArticle = async () => {
     try {
-      fetch('http://localhost:3002/posts', {
+      const response = fetch('http://localhost:3002/posts', {
         method: 'POST',
         body: JSON.stringify({
           title: title,
-          content: log,
+          content: editorRef.current.getContent(),
         }),
+        credentials: 'include',
         headers: {
           'content-type': 'application/json',
         },
       });
+      const data = await response;
+      alert('Article posted');
+      router.push('/');
     } catch (err) {
       console.log(err);
     }
@@ -54,8 +57,8 @@ export default function Page() {
             'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
         }}
       />
-      <button onClick={log} className='justify-start flex'>
-        Log editor content
+      <button onClick={postArticle} className='justify-start flex'>
+        Post Article
       </button>
     </div>
   );
