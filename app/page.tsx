@@ -1,14 +1,16 @@
 'use client';
 import Image from 'next/image';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import useSWR, { Fetcher } from 'swr';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 import { postsRoute } from '../utils/routes';
+import { UserDataContext } from './layout';
 
 export default function Home() {
+  let userDataContext = useContext(UserDataContext);
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -53,6 +55,18 @@ export default function Home() {
     );
   return (
     <div className='h-full flex flex-col justify-center items-center'>
+      {console.log(userDataContext)}
+      <div>{userDataContext?.userData.username as string}</div>
+      <button
+        onClick={() =>
+          userDataContext.updateValue({
+            isLoggedIn: true,
+            username: 'aaaa',
+          })
+        }
+      >
+        AAAA
+      </button>
       <p>Posts:</p>
       {data.posts.map((el: any) => {
         a++;

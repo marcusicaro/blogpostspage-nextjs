@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import useSWR, { Fetcher } from 'swr';
-import AdminForm from '../components/AdminForm';
+import AdminForm from '@/utils/components/AdminForm';
 import { usersAdminRoute } from '@/utils/routes';
 import { userAdminStatusFetcher } from '@/utils/fetches';
 

@@ -1,7 +1,7 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
-import PasswordField from '../components/PasswordField';
+import PasswordField from '@/utils/components/PasswordField';
 import Cookies from 'js-cookie';
 import { usersSigninRoute } from '@/utils/routes';
 

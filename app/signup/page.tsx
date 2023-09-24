@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { usersSignupRoute } from '@/utils/routes';
 import Cookies from 'js-cookie';
-import PasswordField from '../components/PasswordField';
+import PasswordField from '@/utils/components/PasswordField';
 
 export default function Page() {
   const router = useRouter();

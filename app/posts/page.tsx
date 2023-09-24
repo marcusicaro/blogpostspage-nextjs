@@ -7,7 +7,7 @@ import { useSearchParams } from 'next/navigation';
 import parse from 'html-react-parser';
 import capitalizeFirstLetter from '../../utils/capitalizeFirstLetter';
 import Cookies from 'js-cookie';
-import Comments from '../components/Comments';
+import Comments from '@/utils/components/Comments';
 import { postsRoute, commentsRoute } from '@/utils/routes';
 
 export default function Page() {
