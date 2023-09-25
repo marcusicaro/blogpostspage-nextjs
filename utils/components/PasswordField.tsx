@@ -17,14 +17,14 @@ export default function PasswordField(props: any) {
         />
         {showPassword ? (
           <div
-            className='absolute right-1 bottom-0 top-0 my-auto cursor-pointer text-base'
+            className='absolute w-min right-1 bottom-0 top-0 my-auto cursor-pointer text-base'
             onClick={() => setShowPassword(!showPassword)}
           >
             <Visibility />
           </div>
         ) : (
           <div
-            className='absolute right-1 bottom-1 bottom-0 top-0 my-auto cursor-pointer text-base'
+            className='absolute w-min right-1 bottom-0 top-0 my-auto cursor-pointer text-base'
             onClick={() => setShowPassword(!showPassword)}
           >
             <VisibilityOff />
