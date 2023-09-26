@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { ContextType, useState } from 'react';
 import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
@@ -8,10 +8,16 @@ import Navbar from '@/utils/components/Navbar';
 // import { Providers } from './providers';
 // import Navbar from '@/utils/components/Navbar';
 
-export const UserDataContext: any = createContext(null);
+export const UserDataContext =
+  createContext<ContextType<UserData | undefined>>(undefined);
+
+interface UserData {
+  isLoggedIn: boolean;
+  username: string;
+}
 
 const MyContextProvider = ({ children }: any) => {
-  const [userData, setUserData] = useState({
+  const [userData, setUserData] = useState<ContextType['userData']>({
     isLoggedIn: false,
     username: '',
   });

@@ -1,8 +1,18 @@
 'use client';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
+import { UserDataContext } from '@/app/layout';
 
 export default function Navbar() {
-  return <div>Navbar</div>;
+  const loginStatus = useContext(UserDataContext);
+  return (
+    <div>
+      {loginStatus?.userData.isLoggedIn ? (
+        <div>Logged</div>
+      ) : (
+        <div>Not Logged</div>
+      )}
+    </div>
+  );
 }
