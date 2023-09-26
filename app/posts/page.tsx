@@ -42,53 +42,29 @@ export default function Page() {
 
   async function postComment(e: any) {
     e.preventDefault();
+    try {
+      const response = await fetch(commentsRoute + search, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(commentFormData),
+      });
 
-    // const fetcher = async (url: string) => {
-    //   const response = await fetch(commentsRoute + search, {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     credentials: 'include',
-    //     body: JSON.stringify(commentFormData),
-    //   });
-    //   return await response.json();
-    // };
-
-    // const {
-    //   data: commentPostData,
-    //   error: commentPostError,
-    //   isLoading: commentPostIsLoading,
-    // } = useSWR(commentsRoute + search, fetcher);
-
-    // if (commentPostError) alert(commentPostError);
-
-    // if (commentPostData) alert(data.message);
-
-    // // try {
-    // //   const response = await fetch(commentsRoute + search, {
-    // //     method: 'POST',
-    // //     headers: {
-    // //       'Content-Type': 'application/json',
-    // //     },
-    // //     credentials: 'include',
-    // //     body: JSON.stringify(commentFormData),
-    // //   });
-
-    // //   const data = await response.json();
-    // //   if (data.message) {
-    // //     alert(data.message);
-    // //   } else {
-    // //     alert('Falha ao postar comentário');
-    // //   }
-    // // } catch (error) {
-    // //   alert(error);
-    // // }
+      const data = await response.json();
+      if (data.message) {
+        alert(data.message);
+      } else {
+        alert('Falha ao postar comentário');
+      }
+    } catch (error) {
+      alert(error);
+    }
   }
 
   if (error) FailedComponentLoad(error);
   if (isLoading) Loading();
-  const { post } = data;
   if (search === null)
     return (
       <div className='w-full h-screen align-middle items-center justify-center flex'>
@@ -98,6 +74,7 @@ export default function Page() {
       </div>
     );
   if (data) {
+    const { post } = data;
     return (
       <div className='w-full h-screen  flex-col flex'>
         <div className='w-full align-middle justify-center flex'>

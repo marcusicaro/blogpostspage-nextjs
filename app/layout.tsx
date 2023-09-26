@@ -4,6 +4,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { createContext } from 'react';
+import Navbar from '@/utils/components/Navbar';
 // import { Providers } from './providers';
 // import Navbar from '@/utils/components/Navbar';
 
@@ -37,7 +38,10 @@ export default function RootLayout({
         className='w-full h-screen flex bg-transparent flex flex-col justify-center max-w-screen-xl m-auto'
         style={{ background: 'none' }}
       >
-        <MyContextProvider>{children}</MyContextProvider>
+        <MyContextProvider className='flex flex-col'>
+          <Navbar />
+          {children}
+        </MyContextProvider>
       </body>
     </html>
   );
