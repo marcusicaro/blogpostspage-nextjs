@@ -5,3 +5,4 @@ export let usersAdminRoute = usersRoute + 'admin/';
 export let usersSigninRoute = usersRoute + 'signin/';
 export let usersSignupRoute = usersRoute + 'signup/';
 export let usersLogoutRoute = usersRoute + 'logout/';
+export let userGetInfoRoute = usersRoute + 'username/';
