@@ -1,15 +1,16 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import PasswordField from '../../utils/components/PasswordField';
 import Cookies from 'js-cookie';
 import { usersSigninRoute } from '@/utils/routes';
 import Loading from '@/utils/components/Loading';
 import Redirect from '@/utils/components/Redirect';
+import { UserDataContext } from '@/app/layout';
 
 export default function Page() {
+  const loginStatus = useContext(UserDataContext);
   const [formData, setFormData] = useState({ username: '', password: '' });
-  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const [token, setToken] = useState(null);
   const [isLoading, setisLoading] = useState(true);
@@ -39,6 +40,7 @@ export default function Page() {
 
       if (data.token) {
         Cookies.set('token', data.token, { expires: 1 / 24 });
+        loginStatus.setData({ isLoggedIn: true, username: formData.username });
         router.push('/');
       } else {
         alert('Invalid credentials');

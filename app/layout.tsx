@@ -1,33 +1,46 @@
 'use client';
-import React, { ContextType, useState } from 'react';
+import React, {
+  ContextType,
+  PropsWithChildren,
+  ReactNode,
+  useState,
+  createContext,
+} from 'react';
 import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { createContext } from 'react';
 import Navbar from '@/utils/components/Navbar';
-// import { Providers } from './providers';
-// import Navbar from '@/utils/components/Navbar';
 
-export const UserDataContext =
-  createContext<ContextType<UserData | undefined>>(undefined);
+export const UserDataContext = createContext<UserDataController>({
+  data: {
+    isLoggedIn: false,
+    username: '',
+  },
+  setData: () => {},
+});
 
 interface UserData {
   isLoggedIn: boolean;
   username: string;
 }
 
-const MyContextProvider = ({ children }: any) => {
-  const [userData, setUserData] = useState<ContextType['userData']>({
+interface UserDataController {
+  data: UserData;
+  setData: (newValue: UserData) => void;
+}
+
+const MyContextProvider: React.FC<PropsWithChildren> = ({ children }) => {
+  const [userData, setUserData] = useState({
     isLoggedIn: false,
     username: '',
   });
 
-  const updateValue = (newValue: any) => {
+  const updateValue = (newValue: UserData) => {
     setUserData(newValue);
   };
 
   return (
-    <UserDataContext.Provider value={{ userData, updateValue }}>
+    <UserDataContext.Provider value={{ data: userData, setData: updateValue }}>
       {children}
     </UserDataContext.Provider>
   );
@@ -44,7 +57,7 @@ export default function RootLayout({
         className='w-full h-screen flex bg-transparent flex flex-col justify-center max-w-screen-xl m-auto'
         style={{ background: 'none' }}
       >
-        <MyContextProvider className='flex flex-col'>
+        <MyContextProvider>
           <Navbar />
           {children}
         </MyContextProvider>
