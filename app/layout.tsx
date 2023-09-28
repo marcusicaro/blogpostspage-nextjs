@@ -5,11 +5,14 @@ import React, {
   ReactNode,
   useState,
   createContext,
+  useEffect,
 } from 'react';
 import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Navbar from '@/utils/components/Navbar';
+import { userGetInfoRoute } from '@/utils/routes';
+import Cookies from 'js-cookie';
 
 export const UserDataContext = createContext<UserDataController>({
   data: {
@@ -34,6 +37,25 @@ const MyContextProvider: React.FC<PropsWithChildren> = ({ children }) => {
     isLoggedIn: false,
     username: '',
   });
+
+  useEffect(() => {
+    const token = Cookies.get('token');
+    console.log(token);
+    if (token) {
+      const getUserData = async function (): Promise<void> {
+        const response = await fetch(userGetInfoRoute, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+        });
+        const data = await response.json();
+        updateValue({ isLoggedIn: true, username: data.username });
+      };
+      getUserData();
+    }
+  }, []);
 
   const updateValue = (newValue: UserData) => {
     setUserData(newValue);

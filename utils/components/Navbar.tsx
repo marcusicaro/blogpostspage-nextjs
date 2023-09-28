@@ -2,27 +2,10 @@
 import { useContext, useEffect } from 'react';
 import { UserDataContext } from '@/app/layout';
 import Link from 'next/link';
+import { userGetInfoRoute } from '../routes';
 
 export default function Navbar() {
   const loginStatus = useContext(UserDataContext);
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      async function getUserData() {
-        const response = await fetch(usersSigninRoute, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
-        });
-      }
-      if (token) {
-        loginStatus.setData({ isLoggedIn: true, username: 'marquinhos' });
-      }
-    }
-  }, []);
 
   return (
     <div>
@@ -43,7 +26,12 @@ export default function Navbar() {
           </div>
         </div>
       ) : (
-        <div>Not Logged</div>
+        <div>
+          <div className='logo-container'>
+            <Link href='/'></Link> blog do marquinhos
+          </div>
+          <Link href='/signin'>Sign in</Link>
+        </div>
       )}
     </div>
   );

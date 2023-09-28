@@ -1,6 +1,6 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import useSWR, { Fetcher } from 'swr';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -11,9 +11,11 @@ import Comments from '@/utils/components/Comments';
 import { postsRoute, commentsRoute } from '@/utils/routes';
 import FailedComponentLoad from '@/utils/components/FailedComponentLoad';
 import Loading from '@/utils/components/Loading';
+import { UserDataContext } from '../layout';
 
 export default function Page() {
   const router = useRouter();
+  const loginStatus = useContext(UserDataContext);
   const [commentFormData, setCommentFormData] = useState({
     title: '',
     text: '',
@@ -21,7 +23,6 @@ export default function Page() {
   const searchParams = useSearchParams();
   const search = searchParams.get('id');
   let a = 0;
-  const token = Cookies.get('token');
   const fetcher = async (url: string) => {
     const response = await fetch(url);
     return await response.json();
@@ -85,7 +86,7 @@ export default function Page() {
           </div>
         </div>
         <div className='max-w-3xl w-full flex mx-auto'>
-          {token ? (
+          {loginStatus.data.isLoggedIn ? (
             <div className='flex flex-col justify-center items-center w-full'>
               <Comments query={search} />
               <form

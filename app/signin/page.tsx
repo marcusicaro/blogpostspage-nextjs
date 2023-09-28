@@ -19,7 +19,7 @@ export default function Page() {
     const fetchedToken: any = Cookies.get('token');
     setToken(fetchedToken);
     setisLoading(false);
-    if (fetchedToken) {
+    if (loginStatus.data.isLoggedIn) {
       router.push('/');
     }
   }, []);
