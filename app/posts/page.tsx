@@ -11,7 +11,7 @@ import Comments from '@/utils/components/Comments';
 import { postsRoute, commentsRoute } from '@/utils/routes';
 import FailedComponentLoad from '@/utils/components/FailedComponentLoad';
 import Loading from '@/utils/components/Loading';
-import { UserDataContext } from '../layout';
+import { UserDataContext } from '@/utils/components/Context';
 
 export default function Page() {
   const router = useRouter();

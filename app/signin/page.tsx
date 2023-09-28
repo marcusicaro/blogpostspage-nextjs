@@ -6,7 +6,7 @@ import Cookies from 'js-cookie';
 import { usersSigninRoute } from '@/utils/routes';
 import Loading from '@/utils/components/Loading';
 import Redirect from '@/utils/components/Redirect';
-import { UserDataContext } from '@/app/layout';
+import { UserDataContext } from '@/utils/components/Context';
 
 export default function Page() {
   const loginStatus = useContext(UserDataContext);

@@ -1,6 +1,6 @@
 'use client';
 import { useContext, useEffect } from 'react';
-import { UserDataContext } from '@/app/layout';
+import { UserDataContext } from '@/utils/components/Context';
 import Link from 'next/link';
 import { userGetInfoRoute } from '../routes';
 
