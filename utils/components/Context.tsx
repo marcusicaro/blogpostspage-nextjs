@@ -5,7 +5,6 @@ import React, {
   createContext,
   useEffect,
 } from 'react';
-import './globals.css';
 import { userGetInfoRoute } from '@/utils/routes';
 import Cookies from 'js-cookie';
 
