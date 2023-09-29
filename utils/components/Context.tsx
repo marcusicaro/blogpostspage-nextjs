@@ -36,7 +36,6 @@ export const MyContextProvider: React.FC<PropsWithChildren> = ({
 
   useEffect(() => {
     const token = Cookies.get('token');
-    console.log(token);
     if (token) {
       const getUserData = async function (): Promise<void> {
         const response = await fetch(userGetInfoRoute, {

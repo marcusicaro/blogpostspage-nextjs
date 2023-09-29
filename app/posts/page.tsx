@@ -64,8 +64,8 @@ export default function Page() {
     }
   }
 
-  if (error) FailedComponentLoad(error);
-  if (isLoading) Loading();
+  if (error) return <FailedComponentLoad error={error} />;
+  if (isLoading) return <Loading />;
   if (search === null)
     return (
       <div className='w-full h-screen align-middle items-center justify-center flex'>
@@ -77,12 +77,14 @@ export default function Page() {
   if (data) {
     const { post } = data;
     return (
-      <div className='w-full h-screen  flex-col flex'>
+      <div className='w-full flex-col flex'>
         <div className='w-full align-middle justify-center flex'>
-          <div className='w-full justify-center max-w-screen-xl'>
-            <p className='text-3xl font-bold'>{post.title}</p>
+          <div className='w-full max-w-3xl justify-center '>
+            <p className='text-3xl text-center font-bold'>{post.title}</p>
             {parse(post.content)}
-            <p>{capitalizeFirstLetter(post.user.username)}</p>
+            <p className='font-bold'>
+              {capitalizeFirstLetter(post.user.username)}
+            </p>
           </div>
         </div>
         <div className='max-w-3xl w-full flex mx-auto'>

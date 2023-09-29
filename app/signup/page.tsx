@@ -54,10 +54,10 @@ export default function Page() {
     }
   };
   if (token) {
-    Redirect();
+    return <Redirect />;
   }
 
-  if (isLoading) Loading();
+  if (isLoading) return <Loading />;
 
   return (
     <form

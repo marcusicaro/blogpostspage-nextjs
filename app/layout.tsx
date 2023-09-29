@@ -12,12 +12,14 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body
-        className='w-full h-screen flex bg-transparent flex flex-col justify-center max-w-screen-xl m-auto'
+        className='w-full h-screen flex bg-transparent flex-col m-auto'
         style={{ background: 'none' }}
       >
         <MyContextProvider>
           <Navbar />
-          {children}
+          <div className='w-full justify-center h-max flex bg-transparent '>
+            {children}
+          </div>
         </MyContextProvider>
       </body>
     </html>

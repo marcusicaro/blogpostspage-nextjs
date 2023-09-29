@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 import { postsRoute } from '../utils/routes';
-import { UserDataContext } from './layout';
+import { UserDataContext } from '@/utils/components/Context';
 import Loading from '@/utils/components/Loading';
 import FailedComponentLoad from '@/utils/components/FailedComponentLoad';
 
@@ -24,8 +24,8 @@ export default function Home() {
 
   const { data, error, isLoading } = useSWR(postsRoute, fetcher);
 
-  if (error) FailedComponentLoad(error);
-  if (isLoading) Loading();
+  if (error) return <FailedComponentLoad error={error} />;
+  if (isLoading) return <Loading />;
   if (data) {
     return (
       <div className='h-full flex flex-col justify-center items-center'>
@@ -54,7 +54,7 @@ export default function Home() {
   }
   return (
     <div className='h-full flex flex-col justify-center items-center'>
-      Não foi possível carregar os dados
+      Não foi possível carregar os dados...
     </div>
   );
 }

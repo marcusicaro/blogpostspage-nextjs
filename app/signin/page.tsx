@@ -50,8 +50,8 @@ export default function Page() {
     }
   };
 
-  if (token) Redirect();
-  if (isLoading) Loading();
+  if (token) return <Redirect />;
+  if (isLoading) return <Loading />;
 
   return (
     <form className='flex gap-3 flex-col h-max m-auto' onSubmit={handleSubmit}>

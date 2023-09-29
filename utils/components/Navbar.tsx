@@ -8,30 +8,37 @@ export default function Navbar() {
   const loginStatus = useContext(UserDataContext);
 
   return (
-    <div>
+    <div className='flex justify-between p-2 border-b-2'>
+      <Link
+        href='/'
+        className='cursor-pointer logo-container flex justify-center items-center'
+      >
+        blog do marquinhos
+      </Link>
       {loginStatus.data.isLoggedIn ? (
-        <div>
-          <div className='logo-container'>
-            <Link href='/'></Link> blog do marquinhos
-          </div>
-          <div className='flex gap-2'>
-            <div>{loginStatus.data.username}</div>
-            <div
-              onClick={() =>
-                loginStatus.setData({ isLoggedIn: false, username: '' })
-              }
-            >
-              Logout
+        <>
+          <div className='flex gap-4'>
+            <div>Logged in as: {loginStatus.data.username}</div>
+            <div>
+              <Link
+                className=' w-max h-min text-white bg-red-500 px-2 py-1 rounded-md'
+                href='/posts/new'
+              >
+                New Post
+              </Link>
             </div>
+            <Link href='/logout'>Logout</Link>
           </div>
-        </div>
+        </>
       ) : (
-        <div>
-          <div className='logo-container'>
-            <Link href='/'></Link> blog do marquinhos
-          </div>
-          <Link href='/signin'>Sign in</Link>
-        </div>
+        <>
+          <Link
+            className=' w-max h-min text-white bg-red-500 px-2 py-1 rounded-md'
+            href='/signin'
+          >
+            Sign in
+          </Link>
+        </>
       )}
     </div>
   );

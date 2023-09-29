@@ -58,27 +58,28 @@ export default function Page() {
     );
   }
 
-  if (error) FailedComponentLoad(error);
-  if (isLoading) Loading();
+  if (error) return <FailedComponentLoad error={error} />;
+  if (isLoading) return <Loading />;
   if (data) {
     if (data.admin === true) {
       return (
-        <div className='flex flex-col gap-2'>
+        <div className='flex flex-col gap-2 p-2'>
           <div className='flex flex-col'>
-            <label htmlFor='title'>Title:</label>
             <input
               value={title}
               onChange={(val) => setTitle(val.target.value)}
               type='text'
               name='title'
+              placeholder='Título'
               id='title'
+              className='border-2 border-gray-200 rounded-md px-2'
             />
           </div>
           <Editor
             id='editor'
             apiKey='z8fg4722m7vi4i7ntjdxl6ouumofczoeac22mtbrybzpfsbi'
             onInit={(evt, editor) => (editorRef.current = editor)}
-            initialValue='<p>This is the initial content of the editor.</p>'
+            initialValue='<p>Digite aqui seu post.</p>'
             init={{
               height: 500,
               menubar: false,
@@ -91,7 +92,10 @@ export default function Page() {
                 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
             }}
           />
-          <button onClick={postArticle} className='justify-start flex'>
+          <button
+            className='ms-auto w-max h-min text-white bg-red-500 px-2 py-1 rounded-md'
+            onClick={postArticle}
+          >
             Post Article
           </button>
         </div>
@@ -116,7 +120,7 @@ export default function Page() {
     <div className='w-full h-screen align-middle items-center justify-center flex flex-col gap-2'>
       <p>Ocorreu um erro ao baixar os dados.</p>
       <Link className='cursor-pointer' href='/'>
-        Retornar mara a home
+        Retornar para a home
       </Link>
     </div>
   );

@@ -13,8 +13,8 @@ export default function Page() {
     userAdminStatusFetcher
   );
 
-  if (error) FailedComponentLoad(error);
-  if (isLoading) Loading();
+  if (error) return <FailedComponentLoad error={error} />;
+  if (isLoading) return <Loading />;
   if (data) {
     if (data.token === false)
       return (
