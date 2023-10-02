@@ -25,3 +25,12 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+input[type='text'],
+textarea {
+  @apply border-2 border-gray-200 rounded-md px-2;
+}
+
+textarea {
+  @apply resize-none;
+}

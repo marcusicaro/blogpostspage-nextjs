@@ -17,7 +17,7 @@ export default function RootLayout({
       >
         <MyContextProvider>
           <Navbar />
-          <div className='w-full justify-center h-max flex bg-transparent '>
+          <div className='w-full justify-center h-full flex bg-transparent '>
             {children}
           </div>
         </MyContextProvider>

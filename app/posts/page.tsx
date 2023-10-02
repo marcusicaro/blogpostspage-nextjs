@@ -20,6 +20,9 @@ export default function Page() {
     title: '',
     text: '',
   });
+  // const [postText, setPostText] = useState('');
+  // const [title, setTitle] = useState('');
+  const [isEditingPost, setIsEditingPost] = useState(false);
   const searchParams = useSearchParams();
   const search = searchParams.get('id');
   let a = 0;
@@ -27,6 +30,11 @@ export default function Page() {
     const response = await fetch(url);
     return await response.json();
   };
+
+  function togglePostEdit(username: string) {
+    if (username !== loginStatus.data.username) return;
+    setIsEditingPost(!isEditingPost);
+  }
 
   if (search === null)
     return (
@@ -64,6 +72,8 @@ export default function Page() {
     }
   }
 
+  async function mutatePostField(e: any) {}
+
   if (error) return <FailedComponentLoad error={error} />;
   if (isLoading) return <Loading />;
   if (search === null)
@@ -79,13 +89,31 @@ export default function Page() {
     return (
       <div className='w-full flex-col flex'>
         <div className='w-full align-middle justify-center flex'>
-          <div className='w-full max-w-3xl justify-center '>
-            <p className='text-3xl text-center font-bold'>{post.title}</p>
-            {parse(post.content)}
-            <p className='font-bold'>
-              {capitalizeFirstLetter(post.user.username)}
-            </p>
-          </div>
+          {!isEditingPost ? (
+            <div
+              onClick={() => togglePostEdit(post.user.username)}
+              className='w-full max-w-3xl justify-center '
+            >
+              <p className='text-3xl text-center font-bold'>{post.title}</p>
+              {parse(post.content)}
+              <p className='font-bold'>
+                {capitalizeFirstLetter(post.user.username)}
+              </p>
+            </div>
+          ) : (
+            <div
+              // onClick={() => togglePostEdit()}
+              className='flex gap-2 flex-col w-full max-w-3xl justify-center '
+            >
+              <input type='text' value={post.title} />
+              <textarea name='' id='' cols={30} rows={10}>
+                {post.content}
+              </textarea>
+              <p className='font-bold'>
+                {capitalizeFirstLetter(post.user.username)}
+              </p>
+            </div>
+          )}
         </div>
         <div className='max-w-3xl w-full flex mx-auto'>
           {loginStatus.data.isLoggedIn ? (
