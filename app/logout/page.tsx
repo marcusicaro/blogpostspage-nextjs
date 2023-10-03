@@ -1,7 +1,6 @@
 'use client';
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { usersLogoutRoute, usersSignupRoute } from '@/utils/routes';
 import Cookies from 'js-cookie';
 import Loading from '@/utils/components/Loading';
 import Redirect from '@/utils/components/Redirect';

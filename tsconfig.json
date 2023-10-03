@@ -28,7 +28,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "app/api/route.ts",
-    "app/layout.js"
+    "app/layout.js",
+    "utils/routes.tsx"
   ],
   "exclude": ["node_modules"]
 }

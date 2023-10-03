@@ -20,8 +20,6 @@ export default function Page() {
     title: '',
     text: '',
   });
-  // const [postText, setPostText] = useState('');
-  // const [title, setTitle] = useState('');
   const [isEditingPost, setIsEditingPost] = useState(false);
   const searchParams = useSearchParams();
   const search = searchParams.get('id');
@@ -52,7 +50,7 @@ export default function Page() {
   async function postComment(e: any) {
     e.preventDefault();
     try {
-      const response = await fetch(commentsRoute + search, {
+      const response = await fetch(commentsRoute.getCommentsUrl(search!), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

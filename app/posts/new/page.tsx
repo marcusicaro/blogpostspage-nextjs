@@ -2,7 +2,7 @@
 import { Editor } from '@tinymce/tinymce-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { postsRoute, usersAdminRoute } from '@/utils/routes';
+import { postsRoute, usersRoute } from '@/utils/routes';
 import { userAdminStatusFetcher } from '@/utils/fetches';
 import useSWR from 'swr';
 import Cookies from 'js-cookie';
@@ -25,13 +25,13 @@ export default function Page() {
   }, []);
 
   const { data, error, isLoading } = useSWR(
-    usersAdminRoute,
+    usersRoute.getAdminUrl(),
     userAdminStatusFetcher
   );
 
   const postArticle = async () => {
     try {
-      const response = fetch(postsRoute, {
+      const response = await fetch(postsRoute.getPostsUrl(), {
         method: 'POST',
         body: JSON.stringify({
           title: title,
