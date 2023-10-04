@@ -1,6 +1,6 @@
 'use client';
 import { useContext, useEffect } from 'react';
-import { UserDataContext } from '@/utils/components/Context';
+import { UserDataContext } from '@/utils/components/UserContext';
 import Link from 'next/link';
 
 export default function Navbar() {

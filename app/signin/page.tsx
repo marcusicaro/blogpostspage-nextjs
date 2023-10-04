@@ -6,7 +6,7 @@ import Cookies from 'js-cookie';
 import { usersRoute } from '@/utils/routes';
 import Loading from '@/utils/components/Loading';
 import Redirect from '@/utils/components/Redirect';
-import { UserDataContext } from '@/utils/components/Context';
+import { UserDataContext } from '@/utils/components/UserContext';
 
 export default function Page() {
   const loginStatus = useContext(UserDataContext);
@@ -40,7 +40,11 @@ export default function Page() {
 
       if (data.token) {
         Cookies.set('token', data.token, { expires: 1 / 24 });
-        loginStatus.setData({ isLoggedIn: true, username: formData.username });
+        loginStatus.setData({
+          isLoggedIn: true,
+          username: formData.username,
+          admin: data.admin,
+        });
         router.push('/');
       } else {
         alert('Invalid credentials');

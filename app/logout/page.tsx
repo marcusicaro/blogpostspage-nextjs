@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import Loading from '@/utils/components/Loading';
 import Redirect from '@/utils/components/Redirect';
-import { UserDataContext } from '@/utils/components/Context';
+import { UserDataContext } from '@/utils/components/UserContext';
 
 export default function Page() {
   const loginStatus = useContext(UserDataContext);

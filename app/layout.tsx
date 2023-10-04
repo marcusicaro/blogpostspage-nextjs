@@ -2,7 +2,7 @@
 
 import './globals.css';
 import Navbar from '@/utils/components/Navbar';
-import { MyContextProvider } from '@/utils/components/Context';
+import { MyContextProvider } from '@/utils/components/UserContext';
 
 export default function RootLayout({
   children,

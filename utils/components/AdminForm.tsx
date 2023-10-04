@@ -2,7 +2,7 @@
 import { Editor } from '@tinymce/tinymce-react';
 import React, { useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { usersAdminRoute } from '@/utils/routes';
+import { usersRoute } from '@/utils/routes';
 
 export default function AdminForm() {
   const [adminPassword, setAdminPassword] = React.useState('');
@@ -10,7 +10,7 @@ export default function AdminForm() {
   const postArticle = async (e: any) => {
     e.preventDefault();
     try {
-      const response = await fetch(usersAdminRoute, {
+      const response = await fetch(usersRoute.getAdminUrl().href, {
         method: 'POST',
         body: JSON.stringify({
           adminPassword: adminPassword,
@@ -30,8 +30,8 @@ export default function AdminForm() {
     }
   };
   return (
-    <form onSubmit={postArticle}>
-      <div className='container'>
+    <form className='flex items-center' onSubmit={postArticle}>
+      <div className='container flex items-center'>
         <label htmlFor='admin-password'>Senha:</label>
         <input
           placeholder='Senha'

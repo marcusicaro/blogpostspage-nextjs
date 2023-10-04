@@ -1,12 +1,12 @@
 'use client';
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import useSWR, { Fetcher } from 'swr';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 import { postsRoute } from '../utils/routes';
-import { UserDataContext } from '@/utils/components/Context';
+import { UserDataContext } from '@/utils/components/UserContext';
 import Loading from '@/utils/components/Loading';
 import FailedComponentLoad from '@/utils/components/FailedComponentLoad';
 

@@ -29,7 +29,11 @@ export default function Page() {
         </div>
       );
     const { admin } = data;
-    return admin === true ? <div>Already an admin!</div> : <AdminForm />;
+    return admin === true ? (
+      <div className='flex items-center'>Already an admin!</div>
+    ) : (
+      <AdminForm />
+    );
   }
 
   return <div>Não foi possível carregar os dados</div>;

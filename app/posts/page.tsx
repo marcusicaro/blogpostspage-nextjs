@@ -8,13 +8,15 @@ import parse from 'html-react-parser';
 import capitalizeFirstLetter from '../../utils/capitalizeFirstLetter';
 import Comments from '@/utils/components/Comments';
 import { postsRoute, commentsRoute } from '@/utils/routes';
+import { Edit } from '@mui/icons-material';
 import FailedComponentLoad from '@/utils/components/FailedComponentLoad';
 import Loading from '@/utils/components/Loading';
-import { UserDataContext } from '@/utils/components/Context';
+import { UserDataContext } from '@/utils/components/UserContext';
 
 export default function Page() {
   const router = useRouter();
   const loginStatus = useContext(UserDataContext);
+  const [loadingMessage, setLoadingMessage] = useState('Carregando...');
   const [commentFormData, setCommentFormData] = useState({
     title: '',
     text: '',
@@ -28,7 +30,11 @@ export default function Page() {
   };
 
   function togglePostEdit(username: string) {
-    if (username !== loginStatus.data.username) return;
+    if (
+      username !== loginStatus.data.username &&
+      loginStatus.data.admin !== true
+    )
+      return;
     setIsEditingPost(!isEditingPost);
   }
 
@@ -89,15 +95,13 @@ export default function Page() {
       <div className='w-full flex-col flex'>
         <div className='w-full align-middle justify-center flex'>
           {!isEditingPost ? (
-            <div
-              onClick={() => togglePostEdit(post.user.username)}
-              className='w-full max-w-3xl justify-center '
-            >
+            <div className='w-full max-w-3xl justify-center '>
               <p className='text-3xl text-center font-bold'>{post.title}</p>
               {parse(post.content)}
               <p className='font-bold'>
                 {capitalizeFirstLetter(post.user.username)}
               </p>
+              <Edit onClick={() => togglePostEdit(post.user.username)} />
             </div>
           ) : (
             <div

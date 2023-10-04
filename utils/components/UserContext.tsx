@@ -19,6 +19,7 @@ export const UserDataContext = createContext<UserDataController>({
 interface UserData {
   isLoggedIn: boolean;
   username: string;
+  admin?: boolean;
 }
 
 interface UserDataController {
@@ -46,7 +47,11 @@ export const MyContextProvider: React.FC<PropsWithChildren> = ({
           credentials: 'include',
         });
         const data = await response.json();
-        updateValue({ isLoggedIn: true, username: data.username });
+        updateValue({
+          isLoggedIn: true,
+          username: data.username,
+          admin: data.admin,
+        });
       };
       getUserData();
     }
