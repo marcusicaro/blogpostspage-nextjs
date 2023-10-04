@@ -2,7 +2,6 @@
 import { useContext, useEffect } from 'react';
 import { UserDataContext } from '@/utils/components/Context';
 import Link from 'next/link';
-import { userGetInfoRoute } from '../routes';
 
 export default function Navbar() {
   const loginStatus = useContext(UserDataContext);

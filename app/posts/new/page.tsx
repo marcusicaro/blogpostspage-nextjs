@@ -25,13 +25,13 @@ export default function Page() {
   }, []);
 
   const { data, error, isLoading } = useSWR(
-    usersRoute.getAdminUrl(),
+    usersRoute.getAdminUrl().href,
     userAdminStatusFetcher
   );
 
   const postArticle = async () => {
     try {
-      const response = await fetch(postsRoute.getPostsUrl(), {
+      const response = await fetch(postsRoute.getPostsUrl('').href, {
         method: 'POST',
         body: JSON.stringify({
           title: title,

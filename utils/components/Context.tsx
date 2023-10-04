@@ -5,7 +5,7 @@ import React, {
   createContext,
   useEffect,
 } from 'react';
-import { userGetInfoRoute } from '@/utils/routes';
+import { usersRoute } from '@/utils/routes';
 import Cookies from 'js-cookie';
 
 export const UserDataContext = createContext<UserDataController>({
@@ -38,7 +38,7 @@ export const MyContextProvider: React.FC<PropsWithChildren> = ({
     const token = Cookies.get('token');
     if (token) {
       const getUserData = async function (): Promise<void> {
-        const response = await fetch(userGetInfoRoute, {
+        const response = await fetch(usersRoute.getLoginDataUrl(), {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

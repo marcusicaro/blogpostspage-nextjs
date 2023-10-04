@@ -6,7 +6,6 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import parse from 'html-react-parser';
 import capitalizeFirstLetter from '../../utils/capitalizeFirstLetter';
-import Cookies from 'js-cookie';
 import Comments from '@/utils/components/Comments';
 import { postsRoute, commentsRoute } from '@/utils/routes';
 import FailedComponentLoad from '@/utils/components/FailedComponentLoad';
@@ -23,7 +22,6 @@ export default function Page() {
   const [isEditingPost, setIsEditingPost] = useState(false);
   const searchParams = useSearchParams();
   const search = searchParams.get('id');
-  let a = 0;
   const fetcher = async (url: string) => {
     const response = await fetch(url);
     return await response.json();
@@ -42,7 +40,7 @@ export default function Page() {
     );
 
   const { data, error, isLoading } = useSWR(
-    postsRoute + search,
+    postsRoute.getPostsUrl(search).href,
 
     fetcher
   );
@@ -50,14 +48,17 @@ export default function Page() {
   async function postComment(e: any) {
     e.preventDefault();
     try {
-      const response = await fetch(commentsRoute.getCommentsUrl(search!), {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify(commentFormData),
-      });
+      const response = await fetch(
+        commentsRoute.getCommentsOnPostUrl(search!).href,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify(commentFormData),
+        }
+      );
 
       const data = await response.json();
       if (data.message) {

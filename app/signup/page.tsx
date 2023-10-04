@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { usersSignupRoute } from '@/utils/routes';
+import { usersRoute } from '@/utils/routes';
 import Cookies from 'js-cookie';
 import PasswordField from '../../utils/components/PasswordField';
 import Loading from '@/utils/components/Loading';
@@ -31,7 +31,7 @@ export default function Page() {
     e.preventDefault();
 
     try {
-      const response = await fetch(usersSignupRoute, {
+      const response = await fetch(usersRoute.getSignupUrl().href, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

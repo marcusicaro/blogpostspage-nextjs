@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import PasswordField from '../../utils/components/PasswordField';
 import Cookies from 'js-cookie';
-import { usersSigninRoute } from '@/utils/routes';
+import { usersRoute } from '@/utils/routes';
 import Loading from '@/utils/components/Loading';
 import Redirect from '@/utils/components/Redirect';
 import { UserDataContext } from '@/utils/components/Context';
@@ -28,7 +28,7 @@ export default function Page() {
     e.preventDefault();
 
     try {
-      const response = await fetch(usersSigninRoute, {
+      const response = await fetch(usersRoute.getSigninUrl().href, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

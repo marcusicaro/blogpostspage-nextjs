@@ -14,7 +14,7 @@ class CommentsRoute {
   constructor(localUrl: string) {
     this.localUrl = localUrl;
   }
-  getCommentsUrl(searchParam: string | null): URL {
+  getCommentsUrl(searchParam: string): URL {
     return new URL(this.localUrl + '/comments/' + searchParam);
   }
   getCommentsOnPostUrl(postId: string): URL {
@@ -32,8 +32,8 @@ class PostsRoute {
   constructor(localUrl: string) {
     this.localUrl = localUrl;
   }
-  getPostsUrl(): URL {
-    return new URL(this.localUrl + '/posts');
+  getPostsUrl(postId: string): URL {
+    return new URL(this.localUrl + '/posts/' + postId);
   }
   getSinglePostUrl(postId: string): URL {
     return new URL(this.localUrl + '/posts/' + postId);

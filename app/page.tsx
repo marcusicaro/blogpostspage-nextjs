@@ -22,7 +22,10 @@ export default function Home() {
     return await response.json();
   };
 
-  const { data, error, isLoading } = useSWR(postsRoute, fetcher);
+  const { data, error, isLoading } = useSWR(
+    postsRoute.getPostsUrl('').href,
+    fetcher
+  );
 
   if (error) return <FailedComponentLoad error={error} />;
   if (isLoading) return <Loading />;

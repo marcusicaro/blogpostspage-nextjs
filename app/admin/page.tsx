@@ -1,15 +1,15 @@
 'use client';
 import Link from 'next/link';
-import useSWR, { Fetcher } from 'swr';
+import useSWR from 'swr';
 import AdminForm from '@/utils/components/AdminForm';
-import { usersAdminRoute } from '@/utils/routes';
 import { userAdminStatusFetcher } from '@/utils/fetches';
 import FailedComponentLoad from '@/utils/components/FailedComponentLoad';
 import Loading from '@/utils/components/Loading';
+import { usersRoute } from '@/utils/routes';
 
 export default function Page() {
   const { data, error, isLoading } = useSWR(
-    usersAdminRoute,
+    usersRoute.getAdminUrl().href,
     userAdminStatusFetcher
   );
 

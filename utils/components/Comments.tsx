@@ -15,7 +15,7 @@ export default function Comments(props: Query) {
   };
 
   const { data, error, isLoading } = useSWR(
-    commentsRoute + props.query,
+    commentsRoute.getCommentsOnPostUrl(props.query).href,
 
     fetcher
   );
@@ -23,7 +23,7 @@ export default function Comments(props: Query) {
   async function deleteComment(e: any, id: string) {
     console.log(id);
 
-    const response = await fetch(commentsRoute + id, {
+    const response = await fetch(commentsRoute.getCommentUrl(props.query, id), {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
