@@ -8,7 +8,7 @@ import parse from 'html-react-parser';
 import capitalizeFirstLetter from '../../utils/capitalizeFirstLetter';
 import Comments from '@/utils/components/Comments';
 import { postsRoute, commentsRoute } from '@/utils/routes';
-import { Edit } from '@mui/icons-material';
+import { Edit, Check } from '@mui/icons-material';
 import FailedComponentLoad from '@/utils/components/FailedComponentLoad';
 import Loading from '@/utils/components/Loading';
 import { UserDataContext } from '@/utils/components/UserContext';
@@ -22,6 +22,7 @@ export default function Page() {
     text: '',
   });
   const [isEditingPost, setIsEditingPost] = useState(false);
+  const [editeablePostTitle, setEditeablePostTitle] = useState('');
   const searchParams = useSearchParams();
   const search = searchParams.get('id');
   const fetcher = async (url: string) => {
@@ -77,7 +78,29 @@ export default function Page() {
     }
   }
 
-  async function mutatePostField(e: any) {}
+  async function editPost() {
+    try {
+      const response = await fetch(postsRoute.getPostsUrl(search!).href, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          title: editeablePostTitle,
+        }),
+      });
+
+      const data = await response.json();
+      if (data.message) {
+        alert(data.message);
+      } else {
+        alert('Falha ao postar comentário');
+      }
+    } catch (error) {
+      alert(error);
+    }
+  }
 
   if (error) return <FailedComponentLoad error={error} />;
   if (isLoading) return <Loading />;
@@ -101,20 +124,33 @@ export default function Page() {
               <p className='font-bold'>
                 {capitalizeFirstLetter(post.user.username)}
               </p>
-              <Edit onClick={() => togglePostEdit(post.user.username)} />
+              <Edit
+                onClick={() => {
+                  togglePostEdit(post.user.username);
+                  setEditeablePostTitle(post.title);
+                }}
+              />
             </div>
           ) : (
-            <div
-              // onClick={() => togglePostEdit()}
-              className='flex gap-2 flex-col w-full max-w-3xl justify-center '
-            >
-              <input type='text' value={post.title} />
-              <textarea name='' id='' cols={30} rows={10}>
-                {post.content}
-              </textarea>
-              <p className='font-bold'>
-                {capitalizeFirstLetter(post.user.username)}
-              </p>
+            <div className='flex gap-2 flex-col w-full max-w-3xl justify-center '>
+              <input
+                type='text'
+                value={editeablePostTitle}
+                onChange={(e) => setEditeablePostTitle(e.target.value)}
+              />
+              <textarea
+                defaultValue={post.content}
+                name=''
+                id=''
+                cols={30}
+                rows={10}
+              ></textarea>
+              <div className='flex justify-between'>
+                <p className='font-bold'>
+                  {capitalizeFirstLetter(post.user.username)}
+                </p>
+                <Check onClick={() => togglePostEdit(post.user.username)} />
+              </div>
             </div>
           )}
         </div>
