@@ -23,6 +23,7 @@ export default function Page() {
   });
   const [isEditingPost, setIsEditingPost] = useState(false);
   const [editeablePostTitle, setEditeablePostTitle] = useState('');
+  const [editeablePostContent, setEditeablePostContent] = useState('');
   const searchParams = useSearchParams();
   const search = searchParams.get('id');
   const fetcher = async (url: string) => {
@@ -88,6 +89,7 @@ export default function Page() {
         credentials: 'include',
         body: JSON.stringify({
           title: editeablePostTitle,
+          content: editeablePostContent,
         }),
       });
 
@@ -144,12 +146,26 @@ export default function Page() {
                 id=''
                 cols={30}
                 rows={10}
+                onChange={(e) => setEditeablePostContent(e.target.value)}
               ></textarea>
               <div className='flex justify-between'>
                 <p className='font-bold'>
                   {capitalizeFirstLetter(post.user.username)}
                 </p>
-                <Check onClick={() => togglePostEdit(post.user.username)} />
+                <div className='flex gap-2'>
+                  <button
+                    className='w-max h-min text-white bg-red-500 px-2 py-1 rounded-md'
+                    onClick={() => togglePostEdit(post.user.username)}
+                  >
+                    Cancel
+                  </button>
+                  <Check
+                    onClick={() => {
+                      editPost();
+                      togglePostEdit(post.user.username);
+                    }}
+                  />
+                </div>
               </div>
             </div>
           )}
