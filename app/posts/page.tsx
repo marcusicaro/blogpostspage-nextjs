@@ -39,6 +39,11 @@ export default function Page() {
       return;
     setIsEditingPost(!isEditingPost);
   }
+  const { data, error, isLoading } = useSWR(
+    postsRoute.getPostsUrl(search!).href,
+
+    fetcher
+  );
 
   if (search === null)
     return (
@@ -46,12 +51,6 @@ export default function Page() {
         Não foi possível carregar os dados desse post
       </div>
     );
-
-  const { data, error, isLoading } = useSWR(
-    postsRoute.getPostsUrl(search).href,
-
-    fetcher
-  );
 
   async function postComment(e: any) {
     e.preventDefault();

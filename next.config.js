@@ -6,6 +6,7 @@ const nextConfig = {
     loaderFile: './image-loader.ts',
   },
   trailingSlash: true,
+  assetPrefix: './',
 
   // Optional: Change links `/me` -> `/me/` and emit `/me.html` -> `/me/index.html`
   // trailingSlash: true,

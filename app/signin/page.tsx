@@ -80,7 +80,7 @@ export default function Page() {
       </div>
       <div className='flex align-middle items-center'>
         <a href='/signup' className='text-sm underline'>
-          Don't have an account?
+          Don&apos;t have an account?
         </a>
         <button
           className='ms-auto w-max h-min text-white bg-red-500 px-2 py-1 rounded-md'
