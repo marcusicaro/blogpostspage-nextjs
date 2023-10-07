@@ -1,19 +1,8 @@
-let currentLocalUrl;
+let currentLocalUrl = 'https://blog-production-799e.up.railway.app/';
 const env = process.env.NODE_ENV;
 if (env == 'development') {
   currentLocalUrl = 'http://localhost:3002';
-} else if (env == 'production') {
-  currentLocalUrl = 'https://blog-production-799e.up.railway.app/';
 }
-// export let postsRoute = 'http://localhost:3002/posts/';
-// export const getCommentsRoute = (postId) =>
-//   'http://localhost:3002/posts/' + postId + 'comments/';
-// export let usersRoute = 'http://localhost:3002/users/';
-// export let userGetInfoRoute = 'http://localhost:3002/' + 'username/';
-// export let usersAdminRoute = usersRoute + 'admin/';
-// export let usersSigninRoute = usersRoute + 'signin/';
-// export let usersSignupRoute = usersRoute + 'signup/';
-// export let usersLogoutRoute = usersRoute + 'logout/';
 
 class CommentsRoute {
   localUrl: string;
