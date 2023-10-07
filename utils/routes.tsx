@@ -1,4 +1,4 @@
-let currentLocalUrl = 'https://blog-production-799e.up.railway.app/';
+let currentLocalUrl = 'https://blog-production-799e.up.railway.app';
 const env = process.env.NODE_ENV;
 if (env == 'development') {
   currentLocalUrl = 'http://localhost:3002';
