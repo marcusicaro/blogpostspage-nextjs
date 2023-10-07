@@ -1,4 +1,10 @@
-let currentLocalUrl = 'http://localhost:3002';
+let currentLocalUrl;
+const env = process.env.NODE_ENV;
+if (env == 'development') {
+  currentLocalUrl = 'http://localhost:3002';
+} else if (env == 'production') {
+  currentLocalUrl = 'https://blog-production-799e.up.railway.app/';
+}
 // export let postsRoute = 'http://localhost:3002/posts/';
 // export const getCommentsRoute = (postId) =>
 //   'http://localhost:3002/posts/' + postId + 'comments/';
